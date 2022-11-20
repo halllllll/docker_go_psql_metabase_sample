@@ -1,4 +1,4 @@
-module gihtub.com/halllllll/docker_go_psql_metabase_test
+module gihtub.com/halllllll/docker_go_psql_metabase_sample
 
 go 1.19
 
