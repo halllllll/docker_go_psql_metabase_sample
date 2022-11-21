@@ -13,7 +13,11 @@ import (
 var Env embed.FS
 
 type EnvJson struct {
-	Host string `json:"host"`
+	Host   string `json:"host"`
+	DbPort string `json:"psql_port"`
+	DbName string `json:"psql_dbname"`
+	DbUser string `json:"psql_user"`
+	DbPw   string `json:"psql_pw"`
 }
 
 // DBに接続できるか確認
@@ -32,7 +36,11 @@ func main() {
 	json.Unmarshal(envData, &env)
 
 	host := env.Host
-	db, err := sql.Open("postgres", fmt.Sprintf("host=%s port=5432 user=postgres password=postgres dbname=metabase sslmode=disable", host))
+	dbPort := env.DbPort
+	dbName := env.DbName
+	dbUser := env.DbUser
+	dbPw := env.DbPw
+	db, err := sql.Open("postgres", fmt.Sprintf("host=%s port=%s user=%s password=%s dbname=%s sslmode=disable", host, dbPort, dbUser, dbPw, dbName))
 	defer db.Close()
 	if err != nil {
 		panic(err)
