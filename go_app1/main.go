@@ -6,7 +6,7 @@ import (
 	"encoding/json"
 	"fmt"
 
-	_ "github.com/lib/pq"
+	_ "github.com/jackc/pgx/v4/stdlib"
 )
 
 //go:embed secret.json
@@ -40,7 +40,7 @@ func main() {
 	dbName := env.DbName
 	dbUser := env.DbUser
 	dbPw := env.DbPw
-	db, err := sql.Open("postgres", fmt.Sprintf("host=%s port=%s user=%s password=%s dbname=%s sslmode=disable", host, dbPort, dbUser, dbPw, dbName))
+	db, err := sql.Open("pgx", fmt.Sprintf("host=%s port=%s user=%s password=%s dbname=%s sslmode=disable", host, dbPort, dbUser, dbPw, dbName))
 	defer db.Close()
 	if err != nil {
 		panic(err)
@@ -62,7 +62,7 @@ func main() {
 	// insert
 
 	var userId int
-	err = db.QueryRow("INSERT INTO test_user(user_id, user_password) VALUES($1, $2) RETURNING user_id", 666, "newuserpassword").Scan(&userId)
+	err = db.QueryRow("INSERT INTO test_user(user_id, user_password) VALUES($1, $2) RETURNING user_id", 999, "yesyes").Scan(&userId)
 	if err != nil {
 		fmt.Errorf("insert error: %w", err)
 	}
