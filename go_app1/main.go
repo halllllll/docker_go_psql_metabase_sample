@@ -1,6 +1,7 @@
 package main
 
 import (
+	"context"
 	"database/sql"
 	"embed"
 	"encoding/json"
@@ -46,7 +47,14 @@ func main() {
 		panic(err)
 	}
 
-	rows, err := db.Query("SELECT * FROM test_user")
+	ctx, cancel := context.WithCancel(context.Background())
+	defer cancel()
+	err = db.PingContext(ctx)
+	if err != nil {
+		fmt.Errorf("connect db error: %w", err)
+	}
+
+	rows, err := db.QueryContext(ctx, "SELECT * FROM test_user")
 	if err != nil {
 		fmt.Errorf("query error: %w", err)
 	}
@@ -62,7 +70,7 @@ func main() {
 	// insert
 
 	var userId int
-	err = db.QueryRow("INSERT INTO test_user(user_id, user_password) VALUES($1, $2) RETURNING user_id", 999, "yesyes").Scan(&userId)
+	err = db.QueryRowContext(ctx, "INSERT INTO test_user(user_id, user_password) VALUES($1, $2) RETURNING user_id", 4, "four").Scan(&userId)
 	if err != nil {
 		fmt.Errorf("insert error: %w", err)
 	}
