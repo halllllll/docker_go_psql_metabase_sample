@@ -2,10 +2,19 @@ package main
 
 import (
 	"database/sql"
+	"embed"
+	"encoding/json"
 	"fmt"
 
 	_ "github.com/lib/pq"
 )
+
+//go:embed secret.json
+var Env embed.FS
+
+type EnvJson struct {
+	Host string `json:"host"`
+}
 
 // DBに接続できるか確認
 
@@ -15,7 +24,14 @@ type User struct {
 }
 
 func main() {
-	host := "xxx.xxx.xxx.xxx"
+	var env EnvJson
+	envData, err := Env.ReadFile("secret.json")
+	if err != nil {
+		fmt.Errorf("env file read error: %w", err)
+	}
+	json.Unmarshal(envData, &env)
+
+	host := env.Host
 	db, err := sql.Open("postgres", fmt.Sprintf("host=%s port=5432 user=postgres password=postgres dbname=metabase sslmode=disable", host))
 	defer db.Close()
 	if err != nil {
