@@ -13,11 +13,25 @@ services:
       context: .
       dockerfile: "./docker/golang/Dockerfile"
     volumes:
-      - "./go_app1/:/go/src/app1"
+      - "./go_apps/go_app1/:/go/src/app"
+    working_dir: /go/src/app
     depends_on:
       - db
     tty: true
     stdin_open: true
+  go_app2:
+    container_name: go_app2
+    build:
+      context: .
+      dockerfile: "./docker/golang/Dockerfile"
+    volumes:
+      - "./go_apps/go_app2/:/go/src/app"
+    working_dir: /go/src/app
+    depends_on:
+      - db
+    tty: true
+    stdin_open: true
+
   metabase:
     image: metabase/metabase
     container_name: "metabase"
