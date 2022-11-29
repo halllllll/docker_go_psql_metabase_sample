@@ -5,6 +5,8 @@ volumes:
     driver: local
   metabase-data:
     driver: local
+  apps-share-data:
+    driver: local
 
 services:
   go_app1:
@@ -14,6 +16,7 @@ services:
       dockerfile: "./docker/golang/Dockerfile"
     volumes:
       - "./go_apps/go_app1/:/go/src/app"
+      - "apps-share-data:/go/src/app/shareTo"
     working_dir: /go/src/app
     depends_on:
       - db
@@ -26,6 +29,7 @@ services:
       dockerfile: "./docker/golang/Dockerfile"
     volumes:
       - "./go_apps/go_app2/:/go/src/app"
+      - "apps-share-data:/go/src/app/shareFrom"
     working_dir: /go/src/app
     depends_on:
       - db
