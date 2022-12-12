@@ -9,5 +9,6 @@
 # memo
 - `metabase`が起動するのけっこう時間かかるし、なぜかたまに失敗する。Docker Desktopのターミナルでしばらく監視してたが、原因はよくわからない
 - Dockerのサンプルとしては、postgres.confを用意してDockerfileでCOPYするとモアベターかもしれない
+- `docker-compose.yml`の`secrets`キーは単純ながらわりとよさそう
 - `docker-entrypoint-initdb.d`の中にある`.sql`もしくは`.sh`はファイル名がアルファベットごとに実行されるらしい
 - 試したあとは`docker compose down -v`してvolumeごと削除する。postgresの`/docker-entrypoint-initdb.d`を指定しているが、これはvolumeが作られた初回のみ使われる。検証段階では`-v`をつけて毎回削除すること
