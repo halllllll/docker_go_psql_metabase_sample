@@ -44,7 +44,7 @@ services:
     environment:
       # MB_DB_FILE: /metabase-data/metabase.db
       MB_DB_TYPE: postgres
-      MB_DB_DBNAME: my-metabase
+      MB_DB_DBNAME: my_metabase
       MB_DB_PORT: 5432
       MB_DB_USER_FILE: /run/secrets/db_user
       MB_DB_PASS_FILE: /run/secrets/db_password
@@ -66,7 +66,7 @@ services:
     image: postgres:15.1-alpine
     container_name: "metabase-db"
     ports:
-      - "5050:5432"
+      - "5432:5432"
     env_file:
       - "./docker/postgres/.env"
     volumes:
