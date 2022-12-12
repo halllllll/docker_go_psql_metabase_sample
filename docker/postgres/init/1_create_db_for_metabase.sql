@@ -1,0 +1,3 @@
+CREATE DATABASE my_metabase
+    ENCODING 'UTF8';
+
